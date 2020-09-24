@@ -13,20 +13,22 @@ namespace CXXGRAPH
 		class Node
 		{
 		private:
-		unsigned int id;
+			unsigned int id;
 			std::set<Link> linkSet;
+
 		public:
-			Node();
+			Node(unsigned int id);
 			~Node();
 			unsigned int getId() const;
-			std::set<Link> getLinkSet() const;
+			const std::set<Link>& getLinkSet() const;
 			void addLink(Link l);
 			void deleteLink(Link l);
 			void clearLink();
 			unsigned int getNumberOfLink() const;
 
 			//Operator
-			bool operator ==(const  Node &b ) const;			
+			bool operator==(const Node &b) const;
+			bool operator<(const Node &b) const;
 		};
 	} // namespace BASESTRUCT
 } // namespace CXXGRAPH

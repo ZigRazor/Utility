@@ -6,8 +6,9 @@ namespace CXXGRAPH
     namespace BASESTRUCT
     {
 
-        Node::Node()
+        Node::Node(unsigned int id)
         {
+            this->id = id;
         }
 
         Node::~Node()
@@ -19,7 +20,7 @@ namespace CXXGRAPH
             return id;
         }
 
-        std::set<Link> Node::getLinkSet() const
+        const std::set<Link>& Node::getLinkSet() const
         {
             return linkSet;
         }
@@ -44,8 +45,14 @@ namespace CXXGRAPH
             return linkSet.size();
         }
 
+        bool Node::operator<(const Node &b) const
+        {
+            return (id < b.id);
+        }
+
         bool Node::operator==(const Node &b) const
         {
+            return (id == b.id) && (linkSet == b.linkSet);
         }
     } // namespace BASESTRUCT
 } // namespace CXXGRAPH

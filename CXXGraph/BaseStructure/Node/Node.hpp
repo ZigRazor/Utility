@@ -4,19 +4,22 @@
 #pragma once
 
 #include <set>
+#include <limits>
 
 namespace CXXGRAPH
 {
 	namespace BASESTRUCT
 	{
+		static const unsigned int INVALID_NODE_ID = std::numeric_limits<unsigned int>::max();
 		class Link;
 		class Node
 		{
 		private:
 			unsigned int id;
 			std::set<Link> linkSet;
-
+			
 		public:
+			Node(); //NOT USE
 			Node(unsigned int id);
 			~Node();
 			unsigned int getId() const;

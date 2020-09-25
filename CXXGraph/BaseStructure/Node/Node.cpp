@@ -5,6 +5,11 @@ namespace CXXGRAPH
 {
     namespace BASESTRUCT
     {
+        Node::Node() 
+        {
+            this->id = INVALID_NODE_ID;
+        }
+    
 
         Node::Node(unsigned int id)
         {

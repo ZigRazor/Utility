@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <set>
+#include <map>
 #include "BaseStructure/Node/Node.hpp"
 #include "BaseStructure/Link/Link.hpp"
 
@@ -14,16 +14,16 @@ namespace CXXGRAPH
 		class Graph
 		{
 		private:
-			std::set<Link> linkSet;
-			std::set<Node> nodeSet;
+			std::map<unsigned int,Link> linkSet;
+			std::map<unsigned int,Node> nodeSet;
 
 		public:
 			Graph();
 			Graph(std::set<Link> &linkSet);
 			Graph(std::set<Node> &nodeSet);
 			~Graph();
-			const std::set<Link> &getLinkSet() const;
-			const std::set<Node> &getNodeSet() const;
+			const std::map<unsigned int,Link> &getLinkSet() const;
+			const std::map<unsigned int,Node> &getNodeSet() const;
 			void addNode(Node &node);
 			void addLink(Link &link);
 			void deleteNode(Node &node);
@@ -33,6 +33,10 @@ namespace CXXGRAPH
 			void recreateGraph(std::set<Node> &nodeSet);
 			unsigned int getNumberOfLink() const;
 			unsigned int getNumberOfNode() const;
+			bool isNodeInGraph(const Node &node) const;
+			bool isLinkInGraph(const Link &link) const;
+			Node& findNodeById(unsigned int id) const;
+			Link& findLinkById(unsigned int id) const;
 		};
 	} // namespace BASESTRUCT
 } // namespace CXXGRAPH

@@ -4,19 +4,23 @@
 #pragma once
 
 #include <utility>
+#include <limits>
 #include "BaseStructure/Node/Node.hpp"
 namespace CXXGRAPH
 {
 	namespace BASESTRUCT
 	{
+
+		static const unsigned int INVALID_LINK_ID = std::numeric_limits<unsigned int>::max();
 		class Node;
 		class Link
 		{
 		private:
 			unsigned int id;
 			std::pair<Node,Node> fromTo;
-
+			
 		public:
+			Link(); //NOT USE
 			Link(unsigned int id, Node &from, Node &to);
 			~Link();
 

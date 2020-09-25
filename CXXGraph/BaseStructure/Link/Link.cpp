@@ -4,6 +4,11 @@ namespace CXXGRAPH
 {
     namespace BASESTRUCT
     {
+        Link::Link() 
+        {
+            this->id = INVALID_LINK_ID;
+        }
+    
 
         Link::Link(unsigned int id, Node &from, Node &to) : fromTo(from,to)
         {

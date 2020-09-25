@@ -19,8 +19,8 @@ namespace CXXGRAPH
 
 		public:
 			Graph();
-			Graph(std::set<Link> &linkSet);
-			Graph(std::set<Node> &nodeSet);
+			explicit Graph(std::set<Link> &linkSet);
+			explicit Graph(std::set<Node> &nodeSet);
 			~Graph();
 			const std::map<unsigned int,Link> &getLinkSet() const;
 			const std::map<unsigned int,Node> &getNodeSet() const;

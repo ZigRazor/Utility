@@ -20,7 +20,7 @@ namespace CXXGRAPH
 			
 		public:
 			Node(); //NOT USE
-			Node(unsigned int id);
+			explicit Node(unsigned int id);
 			~Node();
 			unsigned int getId() const;
 			const std::set<Link>& getLinkSet() const;

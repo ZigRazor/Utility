@@ -10,7 +10,7 @@ namespace CXXGRAPH
         Graph::Graph(std::set<Link> &linkSet)
         {
             std::set<Link>::const_iterator linkSetIt;
-            for (linkSetIt = linkSet.begin(); linkSetIt != linkSet.end(); linkSetIt++)
+            for (linkSetIt = linkSet.begin(); linkSetIt != linkSet.end(); ++linkSetIt)
             {
                 this->linkSet[linkSetIt->getId()] = *linkSetIt;
                 Node from(linkSetIt->getFrom().getId());
@@ -41,11 +41,11 @@ namespace CXXGRAPH
         Graph::Graph(std::set<Node> &nodeSet)
         {
             std::set<Node>::const_iterator nodeSetIt;
-            for (nodeSetIt = nodeSet.begin(); nodeSetIt != nodeSet.end(); nodeSetIt++)
+            for (nodeSetIt = nodeSet.begin(); nodeSetIt != nodeSet.end(); ++nodeSetIt)
             {
                 this->nodeSet[nodeSetIt->getId()] = *nodeSetIt;
                 std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = nodeSetIt->getLinkSet().begin(); linkSetIt != nodeSetIt->getLinkSet().end(); linkSetIt++)
+                for (linkSetIt = nodeSetIt->getLinkSet().begin(); linkSetIt != nodeSetIt->getLinkSet().end(); ++linkSetIt)
                 {
                     if (!isLinkInGraph(*linkSetIt))
                     {
@@ -75,7 +75,7 @@ namespace CXXGRAPH
             {
                 this->nodeSet[node.getId()] = node;
                 std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = node.getLinkSet().begin(); linkSetIt != node.getLinkSet().end(); linkSetIt++)
+                for (linkSetIt = node.getLinkSet().begin(); linkSetIt != node.getLinkSet().end(); ++linkSetIt)
                 {
                     if (!isLinkInGraph(*linkSetIt))
                     {

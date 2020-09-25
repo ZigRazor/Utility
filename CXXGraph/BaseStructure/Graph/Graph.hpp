@@ -24,10 +24,10 @@ namespace CXXGRAPH
 			~Graph();
 			const std::map<unsigned int,Link> &getLinkSet() const;
 			const std::map<unsigned int,Node> &getNodeSet() const;
-			void addNode(Node &node);
-			void addLink(Link &link);
-			void deleteNode(Node &node);
-			void deleteLink(Link &link);
+			void addNode(const Node &node);
+			void addLink(const Link &link);
+			void deleteNode(const Node &node);
+			void deleteLink(const Link &link);
 			void clearGraph();
 			void recreateGraph(std::set<Link> &linkSet);
 			void recreateGraph(std::set<Node> &nodeSet);

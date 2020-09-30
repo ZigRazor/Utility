@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 if( (IS_DIRECTORY ${GOOGLETESTLIBPATH}) AND (IS_DIRECTORY ${GOOGLETESTINCPATH}))
     
-    add_executable(test_exe Test/main.cpp)
+    add_executable(test_exe Test/main.cpp Test/testnode.cpp )
     target_include_directories(test_exe PUBLIC
                            "${PROJECT_SOURCE_DIR}"
                            "${GOOGLETESTINCPATH}"

@@ -7,47 +7,47 @@ namespace CXXGRAPH
         {
         }
 
-        Graph::Graph(std::set<Link> &linkSet)
+        Graph::Graph(std::set<Link*> &linkSet)
         {
-            std::set<Link>::const_iterator linkSetIt;
+            std::set<Link*>::const_iterator linkSetIt;
             for (linkSetIt = linkSet.begin(); linkSetIt != linkSet.end(); ++linkSetIt)
             {
-                this->linkSet[linkSetIt->getId()] = *linkSetIt;
-                Node from(linkSetIt->getFrom().getId());
-                Node to(linkSetIt->getTo().getId());
+                this->linkSet[(*linkSetIt)->getId()] = *linkSetIt;
+                Node *from = new Node((*linkSetIt)->getFrom().getId());
+                Node *to = new Node((*linkSetIt)->getTo().getId());
                 //insert From
-                if (isNodeInGraph(from))
+                if (isNodeInGraph(*from))
                 { //Node already exist add only link ot the node
-                    nodeSet.at(from.getId()).addLink(*linkSetIt);
+                    nodeSet.at(from->getId())->addLink(*linkSetIt);
                 }
                 else
                 {
-                    from.addLink(*linkSetIt);
+                    from->addLink(*linkSetIt);
                     addNode(from);
                 }
                 //insert To
-                if (isNodeInGraph(to))
+                if (isNodeInGraph(*to))
                 { //Node already exist add only link ot the node
-                    nodeSet.at(to.getId()).addLink(*linkSetIt);
+                    nodeSet.at(to->getId())->addLink(*linkSetIt);
                 }
                 else
                 {
-                    to.addLink(*linkSetIt);
+                    to->addLink(*linkSetIt);
                     addNode(to);
                 }
             }
         }
 
-        Graph::Graph(std::set<Node> &nodeSet)
+        Graph::Graph(std::set<Node*> &nodeSet)
         {
-            std::set<Node>::const_iterator nodeSetIt;
+            std::set<Node*>::const_iterator nodeSetIt;
             for (nodeSetIt = nodeSet.begin(); nodeSetIt != nodeSet.end(); ++nodeSetIt)
             {
-                this->nodeSet[nodeSetIt->getId()] = *nodeSetIt;
-                std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = nodeSetIt->getLinkSet().begin(); linkSetIt != nodeSetIt->getLinkSet().end(); ++linkSetIt)
+                this->nodeSet[(*nodeSetIt)->getId()] = *nodeSetIt;
+                std::set<Link*>::const_iterator linkSetIt;
+                for (linkSetIt = (*nodeSetIt)->getLinkSet().begin(); linkSetIt != (*nodeSetIt)->getLinkSet().end(); ++linkSetIt)
                 {
-                    if (!isLinkInGraph(*linkSetIt))
+                    if (!isLinkInGraph(**linkSetIt))
                     {
                         addLink(*linkSetIt);
                     }
@@ -59,25 +59,25 @@ namespace CXXGRAPH
         {
         }
 
-        const std::map<unsigned int, Link> &Graph::getLinkSet() const
+        const std::map<unsigned int, Link*> &Graph::getLinkSet() const
         {
             return linkSet;
         }
 
-        const std::map<unsigned int, Node> &Graph::getNodeSet() const
+        const std::map<unsigned int, Node*> &Graph::getNodeSet() const
         {
             return nodeSet;
         }
 
-        void Graph::addNode(const Node &node)
+        void Graph::addNode(Node *node)
         {
-            if (!isNodeInGraph(node))
+            if (!isNodeInGraph(*node))
             {
-                this->nodeSet[node.getId()] = node;
-                std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = node.getLinkSet().begin(); linkSetIt != node.getLinkSet().end(); ++linkSetIt)
+                this->nodeSet[node->getId()] = node;
+                std::set<Link*>::const_iterator linkSetIt;
+                for (linkSetIt = node->getLinkSet().begin(); linkSetIt != node->getLinkSet().end(); ++linkSetIt)
                 {
-                    if (!isLinkInGraph(*linkSetIt))
+                    if (!isLinkInGraph(**linkSetIt))
                     {
                         addLink(*linkSetIt);
                     }
@@ -85,75 +85,75 @@ namespace CXXGRAPH
             }
         }
 
-        void Graph::addLink(const Link &link)
+        void Graph::addLink(Link *link)
         {
-            if (!isLinkInGraph(link))
+            if (!isLinkInGraph(*link))
             {
-                this->linkSet[link.getId()] = link;
-                Node from(link.getFrom().getId());
-                Node to(link.getTo().getId());
+                this->linkSet[link->getId()] = link;
+                Node *from = new Node(link->getFrom().getId());
+                Node *to = new Node(link->getTo().getId());
                 //insert From
-                if (isNodeInGraph(from))
+                if (isNodeInGraph(*from))
                 { //Node already exist add only link ot the node
-                    nodeSet.at(from.getId()).addLink(link);
+                    nodeSet.at(from->getId())->addLink(link);
                 }
                 else
                 {
-                    from.addLink(link);
+                    from->addLink(link);
                     addNode(from);
                 }
                 //insert To
-                if (isNodeInGraph(to))
+                if (isNodeInGraph(*to))
                 { //Node already exist add only link ot the node
-                    nodeSet.at(to.getId()).addLink(link);
+                    nodeSet.at(to->getId())->addLink(link);
                 }
                 else
                 {
-                    to.addLink(link);
+                    to->addLink(link);
                     addNode(to);
                 }
             }
         }
 
-        void Graph::deleteNode(const Node &node)
+        void Graph::deleteNode(const Node *node)
         {
-            if (isNodeInGraph(node))
+            if (isNodeInGraph(*node))
             {
-                Node nodeToErase = nodeSet.at(node.getId());
-                std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = nodeToErase.getLinkSet().begin(); linkSetIt != nodeToErase.getLinkSet().end(); ++linkSetIt)
+                Node *nodeToErase = nodeSet.at(node->getId());
+                std::set<Link*>::const_iterator linkSetIt;
+                for (linkSetIt = nodeToErase->getLinkSet().begin(); linkSetIt != nodeToErase->getLinkSet().end(); ++linkSetIt)
                 {
-                    if (isLinkInGraph(*linkSetIt))
+                    if (isLinkInGraph(**linkSetIt))
                     { //maybe useless check
-                        if (nodeToErase.getId() == linkSetIt->getFrom().getId())
+                        if (nodeToErase->getId() == (*linkSetIt)->getFrom().getId())
                         {
-                            if (isNodeInGraph(linkSetIt->getTo()))
+                            if (isNodeInGraph((*linkSetIt)->getTo()))
                             {
-                                if (nodeSet.at(linkSetIt->getTo().getId()).getNumberOfLink() > 1)
+                                if (nodeSet.at((*linkSetIt)->getTo().getId())->getNumberOfLink() > 1)
                                 {
                                     //Remove Link
-                                    nodeSet.at(linkSetIt->getTo().getId()).deleteLink(*linkSetIt);
+                                    nodeSet.at((*linkSetIt)->getTo().getId())->deleteLink(*linkSetIt);
                                 }
                                 else
                                 {
                                     //no more link, node isolated!
-                                    nodeSet.erase(nodeSet.find(linkSetIt->getTo().getId()));
+                                    nodeSet.erase(nodeSet.find((*linkSetIt)->getTo().getId()));
                                 }
                             }
                         }
-                        else if (nodeToErase.getId() == linkSetIt->getTo().getId())
+                        else if (nodeToErase->getId() == (*linkSetIt)->getTo().getId())
                         {
-                            if (isNodeInGraph(linkSetIt->getFrom()))
+                            if (isNodeInGraph((*linkSetIt)->getFrom()))
                             {
-                                if (nodeSet.at(linkSetIt->getFrom().getId()).getNumberOfLink() > 1)
+                                if (nodeSet.at((*linkSetIt)->getFrom().getId())->getNumberOfLink() > 1)
                                 {
                                     //Remove Link
-                                    nodeSet.at(linkSetIt->getTo().getId()).deleteLink(*linkSetIt);
+                                    nodeSet.at((*linkSetIt)->getTo().getId())->deleteLink(*linkSetIt);
                                 }
                                 else
                                 {
                                     //no more link, node isolated!
-                                    nodeSet.erase(nodeSet.find(linkSetIt->getFrom().getId()));
+                                    nodeSet.erase(nodeSet.find((*linkSetIt)->getFrom().getId()));
                                 }
                             }
                         }
@@ -162,47 +162,47 @@ namespace CXXGRAPH
                             //Something goes wrong
                         }
 
-                        linkSet.erase(linkSet.find(linkSetIt->getId()));
+                        linkSet.erase(linkSet.find((*linkSetIt)->getId()));
                     }
                 }
 
-                nodeSet.erase(nodeSet.find(nodeToErase.getId()));
+                nodeSet.erase(nodeSet.find(nodeToErase->getId()));
             }
         }
 
-        void Graph::deleteLink(const Link &link)
+        void Graph::deleteLink(const Link *link)
         {
-            if (isLinkInGraph(link))
+            if (isLinkInGraph(*link))
             {
-                Link linkToErase = linkSet.at(link.getId());
-                if (isNodeInGraph(linkToErase.getFrom()))
+                Link *linkToErase = linkSet.at(link->getId());
+                if (isNodeInGraph(linkToErase->getFrom()))
                 {
-                    if (nodeSet.at(linkToErase.getFrom().getId()).getNumberOfLink() > 1)
+                    if (nodeSet.at(linkToErase->getFrom().getId())->getNumberOfLink() > 1)
                     {
                         //Remove Link
-                        nodeSet.at(linkToErase.getTo().getId()).deleteLink(linkToErase);
+                        nodeSet.at(linkToErase->getTo().getId())->deleteLink(linkToErase);
                     }
                     else
                     {
                         //no more link, node isolated!
-                        nodeSet.erase(nodeSet.find(linkToErase.getFrom().getId()));
+                        nodeSet.erase(nodeSet.find(linkToErase->getFrom().getId()));
                     }
                 }
-                if (isNodeInGraph(linkToErase.getTo()))
+                if (isNodeInGraph(linkToErase->getTo()))
                 {
-                    if (nodeSet.at(linkToErase.getTo().getId()).getNumberOfLink() > 1)
+                    if (nodeSet.at(linkToErase->getTo().getId())->getNumberOfLink() > 1)
                     {
                         //Remove Link
-                        nodeSet.at(linkToErase.getTo().getId()).deleteLink(linkToErase);
+                        nodeSet.at(linkToErase->getTo().getId())->deleteLink(linkToErase);
                     }
                     else
                     {
                         //no more link, node isolated!
-                        nodeSet.erase(nodeSet.find(linkToErase.getTo().getId()));
+                        nodeSet.erase(nodeSet.find(linkToErase->getTo().getId()));
                     }
                 }
 
-                linkSet.erase(linkSet.find(linkToErase.getId()));
+                linkSet.erase(linkSet.find(linkToErase->getId()));
             }
         }
 
@@ -212,53 +212,53 @@ namespace CXXGRAPH
             linkSet.clear();
         }
 
-        void Graph::recreateGraph(std::set<Link> &linkSet)
+        void Graph::recreateGraph(std::set<Link*> &linkSet)
         {
             this->linkSet.clear();
             this->nodeSet.clear();
-            std::set<Link>::const_iterator linkSetIt;
+            std::set<Link*>::const_iterator linkSetIt;
             for (linkSetIt = linkSet.begin(); linkSetIt != linkSet.end(); ++linkSetIt)
             {
-                this->linkSet[linkSetIt->getId()] = *linkSetIt;
-                Node from(linkSetIt->getFrom().getId());
-                Node to(linkSetIt->getTo().getId());
+                this->linkSet[(*linkSetIt)->getId()] = *linkSetIt;
+                Node *from = new Node((*linkSetIt)->getFrom().getId());
+                Node *to = new Node((*linkSetIt)->getTo().getId());
                 //insert From
-                if (isNodeInGraph(from))
+                if (isNodeInGraph(*from))
                 { //Node already exist add only link ot the node
-                    this->nodeSet.at(from.getId()).addLink(*linkSetIt);
+                    this->nodeSet.at(from->getId())->addLink(*linkSetIt);
                 }
                 else
                 {
-                    from.addLink(*linkSetIt);
+                    from->addLink(*linkSetIt);
                     addNode(from);
                 }
                 //insert To
-                if (isNodeInGraph(to))
+                if (isNodeInGraph(*to))
                 { //Node already exist add only link ot the node
-                    this->nodeSet.at(to.getId()).addLink(*linkSetIt);
+                    this->nodeSet.at(to->getId())->addLink(*linkSetIt);
                 }
                 else
                 {
-                    to.addLink(*linkSetIt);
+                    to->addLink(*linkSetIt);
                     addNode(to);
                 }
             }
         }
 
-        void Graph::recreateGraph(std::set<Node> &nodeSet)
+        void Graph::recreateGraph(std::set<Node*> &nodeSet)
         {
             this->linkSet.clear();
             this->nodeSet.clear();
-            std::set<Node>::const_iterator nodeSetIt;
+            std::set<Node*>::const_iterator nodeSetIt;
             for (nodeSetIt = nodeSet.begin(); nodeSetIt != nodeSet.end(); ++nodeSetIt)
             {
-                this->nodeSet[nodeSetIt->getId()] = *nodeSetIt;
-                std::set<Link>::const_iterator linkSetIt;
-                for (linkSetIt = nodeSetIt->getLinkSet().begin(); linkSetIt != nodeSetIt->getLinkSet().end(); ++linkSetIt)
+                this->nodeSet[(*nodeSetIt)->getId()] = *nodeSetIt;
+                std::set<Link*>::const_iterator linkSetIt;
+                for (linkSetIt = (*nodeSetIt)->getLinkSet().begin(); linkSetIt != (*nodeSetIt)->getLinkSet().end(); ++linkSetIt)
                 {
-                    if (!isLinkInGraph(*linkSetIt))
+                    if (!isLinkInGraph(**linkSetIt))
                     {
-                        this->linkSet[linkSetIt->getId()] = *linkSetIt;
+                        this->linkSet[(*linkSetIt)->getId()] = *linkSetIt;
                     }
                 }
             }

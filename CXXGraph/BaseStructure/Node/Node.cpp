@@ -25,17 +25,17 @@ namespace CXXGRAPH
             return id;
         }
 
-        const std::set<Link>& Node::getLinkSet() const
+        const std::set<Link*>& Node::getLinkSet() const
         {
             return linkSet;
         }
 
-        void Node::addLink(Link l)
+        void Node::addLink(Link *l)
         {
             linkSet.insert(l);
         }
 
-        void Node::deleteLink(Link l)
+        void Node::deleteLink(Link *l)
         {
             linkSet.erase(l);
         }

@@ -16,20 +16,20 @@ namespace CXXGRAPH
 		{
 		private:
 			unsigned int id;
-			std::set<Link*> linkSet;
-			
+			std::set<Link *> linkSet;
+
 		public:
 			Node(); //NOT USE
 			explicit Node(unsigned int id);
-			Node(Node const &Other)=default;
+			Node(Node const &Other) = default;
 			~Node();
 			unsigned int getId() const;
-			const std::set<Link*>& getLinkSet() const;
+			const std::set<Link *> &getLinkSet() const;
 			void addLink(Link *l);
 			void deleteLink(Link *l);
 			void clearLink();
 			unsigned int getNumberOfLink() const;
-      		
+
 			//Operator
 			bool operator==(const Node &b) const;
 			bool operator<(const Node &b) const;

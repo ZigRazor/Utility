@@ -14,29 +14,29 @@ namespace CXXGRAPH
 		class Graph
 		{
 		private:
-			std::map<unsigned int,Link*> linkSet;
-			std::map<unsigned int,Node*> nodeSet;
+			std::map<unsigned int, Link *> linkSet;
+			std::map<unsigned int, Node *> nodeSet;
 
 		public:
 			Graph();
-			explicit Graph(std::set<Link*> &linkSet);
-			explicit Graph(std::set<Node*> &nodeSet);
+			explicit Graph(std::set<Link *> &linkSet);
+			explicit Graph(std::set<Node *> &nodeSet);
 			~Graph();
-			const std::map<unsigned int,Link*> &getLinkSet() const;
-			const std::map<unsigned int,Node*> &getNodeSet() const;
+			const std::map<unsigned int, Link *> &getLinkSet() const;
+			const std::map<unsigned int, Node *> &getNodeSet() const;
 			void addNode(Node *node);
 			void addLink(Link *link);
 			void deleteNode(const Node *node);
 			void deleteLink(const Link *link);
 			void clearGraph();
-			void recreateGraph(std::set<Link*> &linkSet);
-			void recreateGraph(std::set<Node*> &nodeSet);
+			void recreateGraph(std::set<Link *> &linkSet);
+			void recreateGraph(std::set<Node *> &nodeSet);
 			unsigned int getNumberOfLink() const;
 			unsigned int getNumberOfNode() const;
-			bool isNodeInGraph(const Node &node) const;
-			bool isLinkInGraph(const Link &link) const;
-			Node& findNodeById(unsigned int id) const;
-			Link& findLinkById(unsigned int id) const;
+			bool isNodeInGraph(const Node *node) const;
+			bool isLinkInGraph(const Link *link) const;
+			Node &findNodeById(unsigned int id) const;
+			Link &findLinkById(unsigned int id) const;
 		};
 	} // namespace BASESTRUCT
 } // namespace CXXGRAPH

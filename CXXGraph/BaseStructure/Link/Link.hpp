@@ -17,18 +17,19 @@ namespace CXXGRAPH
 		{
 		private:
 			unsigned int id;
-			std::pair<Node*,Node*> fromTo;
-			
+			std::pair<Node *, Node *> fromTo;
+
 		public:
 			Link(); //NOT USE
+			Link(unsigned int id);
 			Link(unsigned int id, Node *from, Node *to);
 			~Link();
 
 			unsigned int getId() const;
-			const std::pair<Node*,Node*> &getFromTo() const;
-			const Node &getFrom() const;
-			const Node &getTo() const;
-			void setFromTo(Node *from, Node* to);
+			const std::pair<Node *, Node *> &getFromTo() const;
+			const Node *getFrom() const;
+			const Node *getTo() const;
+			void setFromTo(Node *from, Node *to);
 			void setFrom(Node *from);
 			void setTo(Node *to);
 

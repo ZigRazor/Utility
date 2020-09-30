@@ -9,9 +9,18 @@ configure_file(CXXGraphConfig.h.in CXXGraphConfig.h)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+option(DEBUG "Enable Debug" OFF)
+if(DEBUG)
+	add_compile_options(
+		-O0  #no optimization
+		-g   #generate debug info
+	)
+	
+endif(DEBUG)	
+
 if( (IS_DIRECTORY ${GOOGLETESTLIBPATH}) AND (IS_DIRECTORY ${GOOGLETESTINCPATH}))
     
-    add_executable(test_exe Test/main.cpp Test/testnode.cpp )
+    add_executable(test_exe Test/main.cpp Test/testnode.cpp Test/testlink.cpp Test/testgraph.cpp )
     target_include_directories(test_exe PUBLIC
                            "${PROJECT_SOURCE_DIR}"
                            "${GOOGLETESTINCPATH}"

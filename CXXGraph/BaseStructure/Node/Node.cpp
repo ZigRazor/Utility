@@ -5,11 +5,10 @@ namespace CXXGRAPH
 {
     namespace BASESTRUCT
     {
-        Node::Node() 
+        Node::Node()
         {
             this->id = INVALID_NODE_ID;
         }
-    
 
         Node::Node(unsigned int id)
         {
@@ -25,19 +24,25 @@ namespace CXXGRAPH
             return id;
         }
 
-        const std::set<Link*>& Node::getLinkSet() const
+        const std::set<Link *> &Node::getLinkSet() const
         {
             return linkSet;
         }
 
         void Node::addLink(Link *l)
         {
-            linkSet.insert(l);
+            if (l != nullptr)
+            {
+                linkSet.insert(l);
+            }
         }
 
         void Node::deleteLink(Link *l)
         {
-            linkSet.erase(l);
+            if (l != nullptr)
+            {
+                linkSet.erase(l);
+            }
         }
 
         void Node::clearLink()

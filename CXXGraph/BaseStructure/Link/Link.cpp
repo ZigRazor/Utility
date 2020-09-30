@@ -4,15 +4,18 @@ namespace CXXGRAPH
 {
     namespace BASESTRUCT
     {
-        Link::Link() 
+        Link::Link()
         {
             this->id = INVALID_LINK_ID;
         }
-    
 
-        Link::Link(unsigned int id, Node *from, Node *to) : fromTo(from,to)
+        Link::Link(unsigned int id, Node *from, Node *to) : fromTo(from, to)
         {
             this->id = id;
+        }
+
+        Link::Link(unsigned int id) : Link(id, nullptr, nullptr)
+        {
         }
 
         Link::~Link()
@@ -23,23 +26,23 @@ namespace CXXGRAPH
         {
             return id;
         }
-        
-        const std::pair<Node*,Node*>& Link::getFromTo() const
+
+        const std::pair<Node *, Node *> &Link::getFromTo() const
         {
             return fromTo;
         }
 
-        const Node &Link::getFrom() const
+        const Node *Link::getFrom() const
         {
-            return *(fromTo.first);
+            return fromTo.first;
         }
 
-        const Node &Link::getTo() const
+        const Node *Link::getTo() const
         {
-            return *(fromTo.second);
+            return fromTo.second;
         }
-        
-        void Link::setFromTo(Node *from, Node *to) 
+
+        void Link::setFromTo(Node *from, Node *to)
         {
             fromTo.first = from;
             fromTo.second = to;

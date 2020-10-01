@@ -10,7 +10,7 @@ namespace CXXGRAPH
             // You can remove any or all of the following functions if their bodies would
             // be empty.
 
-            GraphTest() : node_1(1), node_2(2), link_1(1, &node_1, &node_2), link_2(2, &node_2, &node_1)
+            GraphTest() : node_1(1), node_2(2), node_3(3), link_1(1, &node_1, &node_2), link_2(2, &node_2, &node_1), link_3(3, &node_1, &node_3)
             {
                 // You can do set-up work for each test here.
                 node_1.addLink(&link_1);
@@ -25,6 +25,12 @@ namespace CXXGRAPH
                 linkSet_3.insert(&link_2);
                 nodeSet_2.insert(&node_1);
                 nodeSet_3.insert(&node_2);
+                linkSet_4.insert(&link_1);
+                linkSet_4.insert(&link_2);
+                linkSet_4.insert(&link_3);
+                nodeSet_4.insert(&node_1);
+                nodeSet_4.insert(&node_2);
+                nodeSet_4.insert(&node_3);
             }
 
             ~GraphTest() override
@@ -53,10 +59,10 @@ namespace CXXGRAPH
 
             // Class members declared here can be used by all tests in the test suite
             // for Foo.
-            Link link_1, link_2;
-            Node node_1, node_2;
-            std::set<Link *> linkSet_1, linkSet_2, linkSet_3;
-            std::set<Node *> nodeSet_1, nodeSet_2, nodeSet_3;
+            Link link_1, link_2, link_3;
+            Node node_1, node_2, node_3;
+            std::set<Link *> linkSet_1, linkSet_2, linkSet_3, linkSet_4;
+            std::set<Node *> nodeSet_1, nodeSet_2, nodeSet_3, nodeSet_4;
             Graph *graph;
         };
 
@@ -377,6 +383,189 @@ namespace CXXGRAPH
             ASSERT_TRUE(graph->isLinkInGraph(&link_2));
             ASSERT_TRUE(graph->isNodeInGraph(&node_1));
             ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, AddLink_1)
+        {
+            graph = new Graph();
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 0);
+            ASSERT_EQ(graph->getNumberOfNode(), 0);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+            graph->addLink(&link_1);
+            ASSERT_EQ(graph->getNumberOfLink(), 1);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+        
+        TEST_F(GraphTest, AddLink_2)
+        {
+            graph = new Graph();
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 0);
+            ASSERT_EQ(graph->getNumberOfNode(), 0);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+            graph->addLink(&link_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 1);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, AddLink_3)
+        {
+            graph = new Graph();
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 0);
+            ASSERT_EQ(graph->getNumberOfNode(), 0);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+            graph->addLink(&link_1);
+            ASSERT_EQ(graph->getNumberOfLink(), 1);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            graph->addLink(&link_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+        
+        TEST_F(GraphTest, AddLink_4)
+        {
+            graph = new Graph(linkSet_2);
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 1);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getTo()), node_2);
+            graph->addLink(&link_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, AddLink_5)
+        {
+            graph = new Graph(linkSet_1);
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getTo()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getFrom()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getTo()), node_1);
+            graph->addLink(&link_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, DeleteNode_1)
+        {
+            graph = new Graph(linkSet_1);
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getTo()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getFrom()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getTo()), node_1);
+            graph->deleteNode(&node_1);
+            ASSERT_EQ(graph->getNumberOfLink(), 0);
+            ASSERT_EQ(graph->getNumberOfNode(), 0);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, DeleteNode_2)
+        {
+            graph = new Graph(linkSet_1);
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 2);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getTo()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getFrom()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getTo()), node_1);
+            graph->deleteNode(&node_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 0);
+            ASSERT_EQ(graph->getNumberOfNode(), 0);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+        }
+
+        TEST_F(GraphTest, DeleteNode_3)
+        {
+            graph = new Graph(linkSet_4);
+            ASSERT_TRUE(graph != nullptr);
+            ASSERT_EQ(graph->getNumberOfLink(), 3);
+            ASSERT_EQ(graph->getNumberOfNode(), 3);
+            ASSERT_TRUE(graph->isLinkInGraph(&link_1));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_3));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_3));
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_1.getId())->getTo()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getFrom()), node_2);
+            ASSERT_EQ(*(graph->findLinkById(link_2.getId())->getTo()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_3.getId())->getFrom()), node_1);
+            ASSERT_EQ(*(graph->findLinkById(link_3.getId())->getTo()), node_3);
+            graph->deleteNode(&node_2);
+            ASSERT_EQ(graph->getNumberOfLink(), 1);
+            ASSERT_EQ(graph->getNumberOfNode(), 2);
+            ASSERT_FALSE(graph->isLinkInGraph(&link_1));
+            ASSERT_FALSE(graph->isLinkInGraph(&link_2));
+            ASSERT_TRUE(graph->isLinkInGraph(&link_3));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_1));
+            ASSERT_FALSE(graph->isNodeInGraph(&node_2));
+            ASSERT_TRUE(graph->isNodeInGraph(&node_3));
         }
 
 

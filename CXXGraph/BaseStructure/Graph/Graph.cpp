@@ -106,6 +106,7 @@ namespace CXXGRAPH
                 { //Node already exist add only link ot the node
                     nodeSet.at(from->getId())->addLink(link);
                     delete from;
+                    from = nullptr;
                 }
                 else
                 {
@@ -117,6 +118,7 @@ namespace CXXGRAPH
                 { //Node already exist add only link ot the node
                     nodeSet.at(to->getId())->addLink(link);
                     delete to;
+                    to = nullptr;
                 }
                 else
                 {
@@ -131,6 +133,7 @@ namespace CXXGRAPH
                 { //Node already exist add only link ot the node
                     nodeSet.at(from->getId())->addLink(link);
                     delete from;
+                    from = nullptr;
                 }
                 else
                 {
@@ -142,6 +145,7 @@ namespace CXXGRAPH
                 { //Node already exist add only link ot the node
                     nodeSet.at(to->getId())->addLink(link);
                     delete to;
+                    to = nullptr;
                 }
                 else
                 {
@@ -184,7 +188,7 @@ namespace CXXGRAPH
                                 if (nodeSet.at((*linkSetIt)->getFrom()->getId())->getNumberOfLink() > 1)
                                 {
                                     //Remove Link
-                                    nodeSet.at((*linkSetIt)->getTo()->getId())->deleteLink(*linkSetIt);
+                                    nodeSet.at((*linkSetIt)->getFrom()->getId())->deleteLink(*linkSetIt);
                                 }
                                 else
                                 {

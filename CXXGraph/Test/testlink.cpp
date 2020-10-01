@@ -11,7 +11,7 @@ namespace CXXGRAPH
             // You can remove any or all of the following functions if their bodies would
             // be empty.
 
-            LinkTest()
+            LinkTest() : a(1), b(2)
             {
                 // You can do set-up work for each test here.
             }
@@ -34,97 +34,87 @@ namespace CXXGRAPH
             {
                 // Code here will be called immediately after each test (right
                 // before the destructor).
+                if (link)
+                {
+                    delete link;
+                }
             }
 
             // Class members declared here can be used by all tests in the test suite
             // for Foo.
+            Link *link;
+            Node a, b;
         };
 
         TEST_F(LinkTest, Constructor_1)
         {
-            Link *link = new Link();
+            link = new Link();
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), INVALID_LINK_ID);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Constructor_2)
         {
-            Node a(1);
-            Node b(2);
-            Link *link = new Link(1, &a, &b);
+            link = new Link(1, &a, &b);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), 1);
             ASSERT_EQ(link->getFrom(), &a);
             ASSERT_EQ(link->getTo(), &b);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Constructor_3)
         {
-            Link *link = new Link(1, nullptr, nullptr);
+            link = new Link(1, nullptr, nullptr);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), 1);
             ASSERT_EQ(link->getFrom(), nullptr);
             ASSERT_EQ(link->getTo(), nullptr);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Constructor_4)
         {
-            Node a(1);
-            Link *link = new Link(1, &a, nullptr);
+            link = new Link(1, &a, nullptr);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), 1);
             ASSERT_EQ(link->getFrom(), &a);
             ASSERT_EQ(link->getTo(), nullptr);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Constructor_5)
         {
-            Node b(2);
-            Link *link = new Link(1, nullptr, &b);
+            link = new Link(1, nullptr, &b);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), 1);
             ASSERT_EQ(link->getFrom(), nullptr);
             ASSERT_EQ(link->getTo(), &b);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Constructor_6)
         {
-            Link *link = new Link(1);
+            link = new Link(1);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getId(), 1);
             ASSERT_EQ(link->getFrom(), nullptr);
             ASSERT_EQ(link->getTo(), nullptr);
-            //clean
-            delete link;
         }
 
         TEST_F(LinkTest, Destructor_1)
         {
-            Link *link = new Link();
+            link = new Link();
             ASSERT_TRUE(link != nullptr);
-            //clean
             delete link;
             //TODO Verify something
+            link = nullptr;
         }
 
         TEST_F(LinkTest, Destructor_2)
         {
 
-            Link *link = new Link(1);
+            link = new Link(1);
             ASSERT_TRUE(link != nullptr);
-            //clean
             delete link;
             //TODO Verify something
+            link = nullptr;
         }
 
         TEST_F(LinkTest, Destructor_3)
@@ -132,93 +122,63 @@ namespace CXXGRAPH
 
             Node a(1);
             Node b(2);
-            Link *link = new Link(1, &a, &b);
+            link = new Link(1, &a, &b);
             ASSERT_TRUE(link != nullptr);
-            //clean
             delete link;
             //TODO Verify something
+            link = nullptr;
         }
 
         TEST_F(LinkTest, GetFromTo_1)
         {
-
-            Node a(1);
-            Node b(2);
-            Link *link = new Link(1, &a, &b);
+            link = new Link(1, &a, &b);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getFromTo().first, &a);
             ASSERT_EQ(link->getFromTo().second, &b);
-            //clean
-            delete link;
-            
         }
 
         TEST_F(LinkTest, GetFrom_1)
         {
-
-            Node a(1);
-            Node b(2);
-            Link *link = new Link(1, &a, &b);
+            link = new Link(1, &a, &b);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getFrom(), &a);
-            //clean
-            delete link;
-            
         }
 
         TEST_F(LinkTest, GetTo_1)
         {
-
-            Node a(1);
-            Node b(2);
-            Link *link = new Link(1, &a, &b);
+            link = new Link(1, &a, &b);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getTo(), &b);
-            //clean
-            delete link;
-            
         }
 
         TEST_F(LinkTest, SetFromTo_1)
         {
-            Link *link = new Link(1);
+            link = new Link(1);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getFromTo().first, nullptr);
             ASSERT_EQ(link->getFromTo().second, nullptr);
-            Node a(1);
-            Node b(2);
-            link->setFromTo(&a,&b);
+            link->setFromTo(&a, &b);
             ASSERT_EQ(link->getFromTo().first, &a);
             ASSERT_EQ(link->getFromTo().second, &b);
-            //clean
-            delete link;
-            
         }
 
         TEST_F(LinkTest, SetFrom_1)
         {
-            Link *link = new Link(1);
+            link = new Link(1);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getFrom(), nullptr);
-            Node a(1);
             link->setFrom(&a);
             ASSERT_EQ(link->getFrom(), &a);
-            //clean
-            delete link;            
         }
 
         TEST_F(LinkTest, SetTo_1)
         {
-            Link *link = new Link(1);
+            link = new Link(1);
             ASSERT_TRUE(link != nullptr);
             ASSERT_EQ(link->getTo(), nullptr);
-            Node b(2);
             link->setTo(&b);
             ASSERT_EQ(link->getTo(), &b);
-            //clean
-            delete link;            
         }
 
-
-        } // namespace BASESTRUCT
+    } // namespace BASESTRUCT
 } // namespace CXXGRAPH

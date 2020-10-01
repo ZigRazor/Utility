@@ -82,6 +82,15 @@ namespace CXXGRAPH
                         addLink(*linkSetIt);
                     }
                 }
+            }else{
+                std::set<Link *>::const_iterator linkSetIt;
+                for (linkSetIt = node->getLinkSet().begin(); linkSetIt != node->getLinkSet().end(); ++linkSetIt)
+                {
+                    if (!isLinkInGraph(*linkSetIt))
+                    {
+                        addLink(*linkSetIt);
+                    }
+                }
             }
         }
 
@@ -96,6 +105,7 @@ namespace CXXGRAPH
                 if (isNodeInGraph(from))
                 { //Node already exist add only link ot the node
                     nodeSet.at(from->getId())->addLink(link);
+                    delete from;
                 }
                 else
                 {
@@ -106,6 +116,32 @@ namespace CXXGRAPH
                 if (isNodeInGraph(to))
                 { //Node already exist add only link ot the node
                     nodeSet.at(to->getId())->addLink(link);
+                    delete to;
+                }
+                else
+                {
+                    to->addLink(link);
+                    addNode(to);
+                }
+            }else{
+                Node *from = new Node(link->getFrom()->getId());
+                Node *to = new Node(link->getTo()->getId());
+                //insert From
+                if (isNodeInGraph(from))
+                { //Node already exist add only link ot the node
+                    nodeSet.at(from->getId())->addLink(link);
+                    delete from;
+                }
+                else
+                {
+                    from->addLink(link);
+                    addNode(from);
+                }
+                //insert To
+                if (isNodeInGraph(to))
+                { //Node already exist add only link ot the node
+                    nodeSet.at(to->getId())->addLink(link);
+                    delete to;
                 }
                 else
                 {
@@ -282,6 +318,16 @@ namespace CXXGRAPH
         bool Graph::isLinkInGraph(const Link *link) const
         {
             return (linkSet.find(link->getId()) != linkSet.end());
+        }
+        
+        const Node* Graph::findNodeById(unsigned int id) const
+        {
+            return (nodeSet.find(id) != nodeSet.end()) ? nodeSet.at(id) : nullptr;
+        }
+        
+        const Link* Graph::findLinkById(unsigned int id) const
+        {
+            return (linkSet.find(id) != linkSet.end()) ? linkSet.at(id) : nullptr;
         }
 
     } // namespace BASESTRUCT

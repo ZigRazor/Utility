@@ -12,7 +12,7 @@ namespace CXXGRAPH
             // You can remove any or all of the following functions if their bodies would
             // be empty.
 
-            NodeTest()
+            NodeTest() : node2(2), link(1, node, &node2), link2(2, &node2, node)
             {
                 // You can do set-up work for each test here.
             }
@@ -35,7 +35,15 @@ namespace CXXGRAPH
             {
                 // Code here will be called immediately after each test (right
                 // before the destructor).
+                if (node)
+                {
+                    delete node;
+                }
             }
+
+            Node *node;
+            Node node2;
+            Link link, link2;
 
             // Class members declared here can be used by all tests in the test suite
             // for Foo.
@@ -43,74 +51,59 @@ namespace CXXGRAPH
 
         TEST_F(NodeTest, Constructor_1)
         {
-            Node *node = new Node();
+            node = new Node();
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getId(), INVALID_NODE_ID);
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, Constructor_2)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getId(), 1);
             ASSERT_TRUE(node->getLinkSet().empty());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, Destructor_1)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
-            //clean
             delete node;
             //TODO Verify something
+            node = nullptr;
         }
 
         TEST_F(NodeTest, AddLink_1)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Link link;
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, AddLink_2)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, AddLink_3)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
@@ -120,16 +113,13 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, AddLink_4)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
             for (int i = 0; i < 100000; ++i)
             {
                 Link *link = new Link(i, node, &node2);
@@ -137,26 +127,22 @@ namespace CXXGRAPH
                 ASSERT_EQ(node->getNumberOfLink(), i + 1);
                 ASSERT_NE(node->getLinkSet().find(link), node->getLinkSet().end());
             }
-            //clean            
+            //clean
             std::set<Link *>::const_iterator it;
             for (it = node->getLinkSet().begin(); it != node->getLinkSet().end(); ++it)
             {
-                delete *it;               
+                delete *it;
             }
-            delete node;
         }
 
         TEST_F(NodeTest, DeleteLink_1)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
@@ -164,20 +150,15 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link2), node->getLinkSet().end());
-            //clean
-            delete node;
         }
         TEST_F(NodeTest, DeleteLink_2)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
@@ -185,21 +166,16 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, DeleteLink_3)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
@@ -211,21 +187,16 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 0);
             ASSERT_EQ(node->getLinkSet().find(&link2), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, DeleteLink_4)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
@@ -238,21 +209,16 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, DeleteLink_5)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             //Delete link not yet inserted
             node->deleteLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 1);
@@ -268,38 +234,29 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 0);
             ASSERT_EQ(node->getLinkSet().find(&link2), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, ClearLink_1)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
             node->clearLink();
             ASSERT_EQ(node->getNumberOfLink(), 0);
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
         TEST_F(NodeTest, ClearLink_2)
         {
-            Node *node = new Node(1);
+            node = new Node(1);
             ASSERT_TRUE(node != nullptr);
             ASSERT_EQ(node->getNumberOfLink(), 0);
-            Node node2(2);
-            Link link(1, node, &node2);
             node->addLink(&link);
             ASSERT_EQ(node->getNumberOfLink(), 1);
             ASSERT_NE(node->getLinkSet().find(&link), node->getLinkSet().end());
-            Link link2(2, &node2, node);
             node->addLink(&link2);
             ASSERT_EQ(node->getNumberOfLink(), 2);
             ASSERT_NE(node->getLinkSet().find(&link2), node->getLinkSet().end());
@@ -307,8 +264,6 @@ namespace CXXGRAPH
             ASSERT_EQ(node->getNumberOfLink(), 0);
             ASSERT_EQ(node->getLinkSet().find(&link), node->getLinkSet().end());
             ASSERT_EQ(node->getLinkSet().find(&link2), node->getLinkSet().end());
-            //clean
-            delete node;
         }
 
     } // namespace BASESTRUCT

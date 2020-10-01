@@ -35,8 +35,8 @@ namespace CXXGRAPH
 			unsigned int getNumberOfNode() const;
 			bool isNodeInGraph(const Node *node) const;
 			bool isLinkInGraph(const Link *link) const;
-			Node &findNodeById(unsigned int id) const;
-			Link &findLinkById(unsigned int id) const;
+			const Node *findNodeById(unsigned int id) const;
+			const Link *findLinkById(unsigned int id) const;
 		};
 	} // namespace BASESTRUCT
 } // namespace CXXGRAPH

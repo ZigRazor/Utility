@@ -216,11 +216,11 @@ namespace CXXGRAPH
             {
                 Link *linkToErase = linkSet.at(link->getId());
                 if (isNodeInGraph(linkToErase->getFrom()))
-                {
+                {                    
                     if (nodeSet.at(linkToErase->getFrom()->getId())->getNumberOfLink() > 1)
-                    {
+                    {                        
                         //Remove Link
-                        nodeSet.at(linkToErase->getTo()->getId())->deleteLink(linkToErase);
+                        nodeSet.at(linkToErase->getFrom()->getId())->deleteLink(linkToErase);
                     }
                     else
                     {
